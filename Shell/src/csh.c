@@ -23,7 +23,8 @@ void csh_loop(void) {
         args = csh_split_line(line);
         
         status = csh_execute(args);
-
+        
+        free(cwd);
         free(line);
         free(args);
     } while (status);    
