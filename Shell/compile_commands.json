@@ -19,6 +19,19 @@
       "-Iinclude",
       "-o",
       "run",
+      "src/csh_builtins.c"
+    ],
+    "directory": "/home/kapi/Documents/GitHub/System-programming/Shell",
+    "file": "/home/kapi/Documents/GitHub/System-programming/Shell/src/csh_builtins.c",
+    "output": "/home/kapi/Documents/GitHub/System-programming/Shell/run"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-c",
+      "-Iinclude",
+      "-o",
+      "run",
       "src/csh.c"
     ],
     "directory": "/home/kapi/Documents/GitHub/System-programming/Shell",
@@ -36,6 +49,19 @@
     ],
     "directory": "/home/kapi/Documents/GitHub/System-programming/Shell",
     "file": "/home/kapi/Documents/GitHub/System-programming/Shell/src/csh_read_line.c",
+    "output": "/home/kapi/Documents/GitHub/System-programming/Shell/run"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-c",
+      "-Iinclude",
+      "-o",
+      "run",
+      "src/csh_run_process.c"
+    ],
+    "directory": "/home/kapi/Documents/GitHub/System-programming/Shell",
+    "file": "/home/kapi/Documents/GitHub/System-programming/Shell/src/csh_run_process.c",
     "output": "/home/kapi/Documents/GitHub/System-programming/Shell/run"
   },
   {
