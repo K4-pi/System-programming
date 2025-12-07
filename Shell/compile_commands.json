@@ -24,5 +24,31 @@
     "directory": "/home/kapi/Documents/GitHub/System-programming/Shell",
     "file": "/home/kapi/Documents/GitHub/System-programming/Shell/src/csh.c",
     "output": "/home/kapi/Documents/GitHub/System-programming/Shell/run"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-c",
+      "-Iinclude",
+      "-o",
+      "run",
+      "src/csh_read_line.c"
+    ],
+    "directory": "/home/kapi/Documents/GitHub/System-programming/Shell",
+    "file": "/home/kapi/Documents/GitHub/System-programming/Shell/src/csh_read_line.c",
+    "output": "/home/kapi/Documents/GitHub/System-programming/Shell/run"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-c",
+      "-Iinclude",
+      "-o",
+      "run",
+      "src/csh_split_line.c"
+    ],
+    "directory": "/home/kapi/Documents/GitHub/System-programming/Shell",
+    "file": "/home/kapi/Documents/GitHub/System-programming/Shell/src/csh_split_line.c",
+    "output": "/home/kapi/Documents/GitHub/System-programming/Shell/run"
   }
 ]
