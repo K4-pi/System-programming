@@ -2,4 +2,4 @@
 all: compile
 
 compile:
-	bear -- gcc main.c -o run src/* -Iinclude
+	bear -- gcc main.c -o run src/* -Iinclude -Wall -g

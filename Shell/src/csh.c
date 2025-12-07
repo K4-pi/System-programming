@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <unistd.h>
 
 #include "stdio.h"
 #include "csh.h"
@@ -10,11 +11,13 @@ int lsh_execute(char **args);
 
 void csh_loop(void) {
     char *line;
+    char *cwd;
     char **args;
     int status;
 
     do {
-        printf("> ");
+        cwd = csh_get_working_directory();
+        printf("%s > ", cwd);
         
         line = csh_read_line();
         args = csh_split_line(line);

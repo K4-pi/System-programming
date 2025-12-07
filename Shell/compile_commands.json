@@ -4,6 +4,8 @@
       "/usr/bin/gcc",
       "-c",
       "-Iinclude",
+      "-Wall",
+      "-g",
       "-o",
       "run",
       "main.c"
@@ -17,19 +19,8 @@
       "/usr/bin/gcc",
       "-c",
       "-Iinclude",
-      "-o",
-      "run",
-      "src/csh_builtins.c"
-    ],
-    "directory": "/home/kapi/Documents/GitHub/System-programming/Shell",
-    "file": "/home/kapi/Documents/GitHub/System-programming/Shell/src/csh_builtins.c",
-    "output": "/home/kapi/Documents/GitHub/System-programming/Shell/run"
-  },
-  {
-    "arguments": [
-      "/usr/bin/gcc",
-      "-c",
-      "-Iinclude",
+      "-Wall",
+      "-g",
       "-o",
       "run",
       "src/csh.c"
@@ -43,6 +34,23 @@
       "/usr/bin/gcc",
       "-c",
       "-Iinclude",
+      "-Wall",
+      "-g",
+      "-o",
+      "run",
+      "src/csh_execute.c"
+    ],
+    "directory": "/home/kapi/Documents/GitHub/System-programming/Shell",
+    "file": "/home/kapi/Documents/GitHub/System-programming/Shell/src/csh_execute.c",
+    "output": "/home/kapi/Documents/GitHub/System-programming/Shell/run"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-c",
+      "-Iinclude",
+      "-Wall",
+      "-g",
       "-o",
       "run",
       "src/csh_read_line.c"
@@ -56,6 +64,8 @@
       "/usr/bin/gcc",
       "-c",
       "-Iinclude",
+      "-Wall",
+      "-g",
       "-o",
       "run",
       "src/csh_run_process.c"
@@ -69,6 +79,8 @@
       "/usr/bin/gcc",
       "-c",
       "-Iinclude",
+      "-Wall",
+      "-g",
       "-o",
       "run",
       "src/csh_split_line.c"

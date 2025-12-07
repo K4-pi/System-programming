@@ -1,4 +1,5 @@
 #include "csh_split_line.h"
+#include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -14,7 +15,7 @@ char **csh_split_line(char *line) {
     char **buffer = calloc(buffer_size, sizeof(char*));
 
     if (buffer == NULL) {
-        fprintf(stderr, "csh: allocation error! (csh_split_line.c : 17)\n");
+        fprintf(stderr, "csh: allocation error!\n%s\n", strerror(errno));
         exit(EXIT_FAILURE);
     }
 
@@ -28,7 +29,7 @@ char **csh_split_line(char *line) {
             buffer = realloc(buffer, sizeof(char*));
 
             if (buffer == NULL) {
-                fprintf(stderr, "csh: reallocation error! (csh_split_line.c : 31)\n");
+                fprintf(stderr, "csh: reallocation error!\n%s\n", strerror(errno));
                 exit(EXIT_FAILURE);
             }
         }

@@ -1,7 +1,9 @@
 #include "csh_read_line.h"
 
+#include <errno.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
 #define CSH_BUFSIZE_MOD 64
 
@@ -13,7 +15,7 @@ char *csh_read_line(void) {
     char *buffer = calloc(buffer_size, sizeof(char));
 
     if (buffer == NULL) {
-        fprintf(stderr, "csh: allocation error! (csh_read_line.c : 16)\n");
+        fprintf(stderr, "csh: allocation error!\n%s\n", strerror(errno));
         exit(EXIT_FAILURE);
     }
     
@@ -34,7 +36,7 @@ char *csh_read_line(void) {
             buffer = realloc(buffer, buffer_size);
 
             if (buffer == NULL) {
-                fprintf(stderr, "csh: reallocation error! (csh_read_line.c : 37)\n");
+                fprintf(stderr, "csh: reallocation error!\n%s\n", strerror(errno));
                 exit(EXIT_FAILURE);
             }
         }
