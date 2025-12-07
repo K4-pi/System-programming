@@ -1,0 +1,28 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-c",
+      "-Iinclude",
+      "-o",
+      "run",
+      "main.c"
+    ],
+    "directory": "/home/kapi/Documents/GitHub/System-programming/Shell",
+    "file": "/home/kapi/Documents/GitHub/System-programming/Shell/main.c",
+    "output": "/home/kapi/Documents/GitHub/System-programming/Shell/run"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-c",
+      "-Iinclude",
+      "-o",
+      "run",
+      "src/csh.c"
+    ],
+    "directory": "/home/kapi/Documents/GitHub/System-programming/Shell",
+    "file": "/home/kapi/Documents/GitHub/System-programming/Shell/src/csh.c",
+    "output": "/home/kapi/Documents/GitHub/System-programming/Shell/run"
+  }
+]
