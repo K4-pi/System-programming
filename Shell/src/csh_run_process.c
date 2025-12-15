@@ -22,6 +22,5 @@ int csh_run_process(char **args) {
     else {
         perror("csh: error while running process!\n");
     }
-
     return 1;
 }
