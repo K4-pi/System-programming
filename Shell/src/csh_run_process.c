@@ -23,7 +23,6 @@ int pipe_command(char **pargs) {
     } else {
         perror("csh: error while running pipe process!\n");
     }    
-
     return 1;
 }
 
