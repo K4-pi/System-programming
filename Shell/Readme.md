@@ -5,11 +5,11 @@ Simple UNIX-like shell written in C.
 ## Features
 - command execution
 - pipes (|)
-- multiple piped commands
+- single piped commands
 - basic error handling
 
 ## To-do
-- redirecting ( <, >)
+- redirecting ( <, > )
 - lack of error handling in some functions
 - multiple pipes ( ls | grep txt | wc -l )
 
