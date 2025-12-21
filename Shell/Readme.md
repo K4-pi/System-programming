@@ -5,13 +5,12 @@ Simple UNIX-like shell written in C.
 ## Features
 - command execution
 - pipes (|)
-- single piped commands
+- multiple pipe commands
 - basic error handling
 
 ## To-do
 - redirecting ( <, > )
-- lack of error handling in some functions
-- multiple pipes ( ls | grep txt | wc -l )
+- support of alias ? 
 
 ## Why this project?
 This project was created to understand how UNIX shells work internally:
