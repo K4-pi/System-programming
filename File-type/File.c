@@ -1,14 +1,18 @@
 #include <limits.h>
 #include <stdio.h>
 #include <elf.h>
+#include <stdlib.h>
 
-#define BUFF_SIZE 4
+#include "signatures.h"
+
+#define BUFF_SIZE 16
 
 void elfFileInfo(FILE* pFile);
+void zipFileInfo();
 
 int main(int argc, const char** argv) {
     FILE* file;
-    unsigned char buff[BUFF_SIZE] = { 0 };
+    unsigned char *buff = calloc(BUFF_SIZE, sizeof(unsigned char));
 
     if (argc < 2 || argc > 2) {
         printf("You need to provide filename\n");
@@ -22,14 +26,22 @@ int main(int argc, const char** argv) {
     }
     fread(buff, 1, sizeof(buff), file);
     printf("File: %s is %s file!\n", argv[1], buff);
-
-    int i = 0;
+  
+    for (int i = 0; i < BUFF_SIZE; i++) {
+        printf("%02x ", buff[i]);
+    }
+    printf("\n");
+    
     if (buff[0] == ELFMAG0 && buff[1] == ELFMAG1 && buff[2] == ELFMAG2 && buff[3] == ELFMAG3) {
         elfFileInfo(file);
     }
 
     fclose(file);
     return 0;
+}
+
+void zipFileInfo() {
+    printf("Zip file\n");   
 }
 
 void elfFileInfo(FILE* pFile) {
