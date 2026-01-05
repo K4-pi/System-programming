@@ -31,7 +31,8 @@ int main(int argc, const char** argv) {
     printf("Size of sig table: %zu\n\n", sig_table_len());
 
     sig_t s = fileInfo(buff); 
-    if (strcmp(s.name, "NULL") == 0) {
+    if (s.sig == 0)
+    {
         printf("Unidetified file format...\n");
     }
     else {
@@ -48,7 +49,7 @@ int main(int argc, const char** argv) {
 }
 
 sig_t fileInfo(unsigned char *buff) {
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < sig_table_len(); i++) {
         if (memcmp(sig_table[i].sig, buff, sig_table[i].len) == 0) {
             return sig_table[i];
         }

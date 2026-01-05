@@ -40,7 +40,7 @@ const sig_t sig_table[] = {
 };
 
 const sig_t NULL_SIG = {
-    .name = "NULL",
+    .name = NULL,
     .sig = 0,
     .len = 0
 };
