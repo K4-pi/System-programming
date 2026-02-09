@@ -22,6 +22,8 @@ void send_to_manager(char** argv) {
 
     char buffer[BUFFER_SIZE];
     memcpy(buffer, argv[1], BUFFER_SIZE);
+    strcat(buffer, " ");
+    strcat(buffer, argv[2]);
 
     if (send(c, buffer, sizeof(buffer) - 1, 0) == -1) {
         perror("SVC cli: send error\n");
