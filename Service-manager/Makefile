@@ -10,10 +10,10 @@ CLI_INCLUDE := -Isvc-cli/include
 all: manager cli
 
 manager:
-	$(CC) $(CFLAGS) -o build/manager svc-manager/svc-manager.c $(MANAGER_SRC) $(MANAGER_INCLUDE) 
+	$(CC) $(CFLAGS) -o manager svc-manager/svc-manager.c $(MANAGER_SRC) $(MANAGER_INCLUDE) 
 
 cli:
-	$(CC) $(CFLAGS) -o build/cli svc-cli/svc-cli.c $(CLI_SRC) $(CLI_INCLUDE)
+	$(CC) $(CFLAGS) -o cli svc-cli/svc-cli.c $(CLI_SRC) $(CLI_INCLUDE)
 
 clean:
-	rm -f $(wildcard build/*)
+	rm -f cli manager
