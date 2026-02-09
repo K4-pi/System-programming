@@ -9,6 +9,7 @@
 
 #define SOCK_PATH "/tmp/svc.sock"
 #define MAX_EVENTS 64
+#define BUFFER_SIZE 64
 
 void manager_epoll() {
     int s = socket(AF_UNIX, SOCK_STREAM, 0);
@@ -62,9 +63,10 @@ void manager_epoll() {
             }
             else { // ALREADY connected
                 int client_fd = events[i].data.fd;
-                char buffer[64];
+                char buffer[BUFFER_SIZE];
 
                 while (1) {
+                    memset(buffer, 0, BUFFER_SIZE);
                     ssize_t n = recv(client_fd, buffer, sizeof(buffer) - 1, 0);
                     
                     if (n > 0) {
