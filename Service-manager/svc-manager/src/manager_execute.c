@@ -4,6 +4,9 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "manager_execute.h"
+#include "manager_commands.h"
+
 #define DELIM " \n\r\a\t"
 
 char** evaluate_commands(char* str) {
@@ -35,6 +38,13 @@ char** evaluate_commands(char* str) {
 int execute_cmd(char** commands) {
   printf("Command: %s\n", commands[0]);
   printf("Argument: %s\n", commands[1]);
+
+  for (int i = 0; i < 2; i++) {
+    if (strcmp(commands[0], cmds[i].name) == 0) {
+      cmds[i].fn();
+      break;
+    }
+  }
 
   return 0;
 }
