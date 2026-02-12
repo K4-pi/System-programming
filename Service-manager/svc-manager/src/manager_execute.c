@@ -39,7 +39,7 @@ void execute_cmd(char** commands) {
   printf("Command: %s\n", commands[0]);
   printf("Argument: %s\n", commands[1]);
 
-  for (int i = 0; i < 2; i++) {
+  for (size_t i = 0; i < cmds_len; i++) {
     if (strcmp(commands[0], cmds[i].name) == 0) {
       cmds[i].fn();
       break;

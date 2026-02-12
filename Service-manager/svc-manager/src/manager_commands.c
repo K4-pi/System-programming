@@ -1,3 +1,4 @@
+#include <stddef.h>
 #include <stdio.h>
 
 #include "manager_commands.h"
@@ -9,6 +10,8 @@ cmd cmds[] = {
   {"start", start_fn},
   {"stop", stop_fn}
 };
+
+size_t cmds_len = sizeof(cmds)/sizeof(cmds[0]);
 
 void start_fn() {
   printf("START FUNCTION!\n");
