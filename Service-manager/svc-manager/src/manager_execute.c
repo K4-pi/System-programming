@@ -35,7 +35,7 @@ char** evaluate_commands(char* str) {
   return commands;
 }
 
-int execute_cmd(char** commands) {
+void execute_cmd(char** commands) {
   printf("Command: %s\n", commands[0]);
   printf("Argument: %s\n", commands[1]);
 
@@ -45,6 +45,4 @@ int execute_cmd(char** commands) {
       break;
     }
   }
-
-  return 0;
 }

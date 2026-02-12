@@ -80,9 +80,7 @@ void manager_epoll() {
                             break;
                         }
 
-                        if (execute_cmd(commands) == -1) {
-                            perror("SVC manager: execute command error\n");
-                        }
+                        execute_cmd(commands);
                         free(commands);
                     } else if (n == 0) {
                         close(client_fd);
