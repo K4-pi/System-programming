@@ -8,9 +8,12 @@
 #include <errno.h>
 
 #include "manager_recv.h"
-#include "manager_execute.h"
+#include "manager_commands.h"
+#include "manager_conf.h"
+#include "manager_string.h"
 
 #define SOCK_PATH "/tmp/svc.sock"
+#define DELIM " \n\r\a\t"
 #define MAX_EVENTS 64
 #define BUFFER_SIZE 64
 
@@ -73,7 +76,7 @@ void manager_epoll() {
                     ssize_t n = recv(client_fd, buffer, sizeof(buffer) - 1, 0);
                     
                     if (n > 0) {
-                        char** commands = evaluate_commands(buffer);
+                        char** commands = parse_str(buffer, DELIM);
                         if (!commands) {
                             printf("SVC manager: NULL commands\n");
                             free(commands);
@@ -82,6 +85,8 @@ void manager_epoll() {
 
                         execute_cmd(commands);
                         free(commands);
+
+                        display_services(); //For debugging
                     } else if (n == 0) {
                         close(client_fd);
                         break;
