@@ -3,6 +3,8 @@
 
 #include <stddef.h>
 
+void execute_cmd(char** commands);
+
 typedef void (*function)(void);
 
 typedef struct {
@@ -10,6 +12,6 @@ typedef struct {
     function fn;
 } cmd;
 
-extern cmd cmds[];
-extern size_t cmds_len;
+// extern cmd cmds[];
+// extern size_t cmds_len;
 #endif
