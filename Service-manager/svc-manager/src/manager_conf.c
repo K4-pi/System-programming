@@ -137,6 +137,4 @@ void display_services(void) {
     printf("cmd: %s\n", services[i].cmd);
     printf("pid: %d\n", services[i].pid);
   }
-  
-  free(s);
 }
