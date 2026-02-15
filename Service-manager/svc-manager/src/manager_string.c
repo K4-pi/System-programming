@@ -1,11 +1,13 @@
+#include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 
 #include "manager_string.h"
 
 char** parse_str(char* str, char* delim) {
-  int BUFFER_SIZE = 64;
+  int BUFFER_SIZE = 32;
   int index = 0;
   char* tok = strtok(str, delim);
   char** buffer = calloc(BUFFER_SIZE, sizeof(char*));
@@ -24,8 +26,9 @@ char** parse_str(char* str, char* delim) {
     
     buffer[index] = tok;
     index++;
-    tok = strtok(NULL, delim);
+    tok = strtok(NULL, delim); //TODO: change to strtok_r because of global state ? 
   }
 
+  buffer[index] = NULL;
   return buffer;
 }
