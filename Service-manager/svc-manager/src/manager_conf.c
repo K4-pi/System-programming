@@ -9,8 +9,7 @@
 #include "manager_string.h"
 
 static char* read_conf_file(void);
-static service_s* get_services_conf(char* buffer);
-void display_services(void);
+static service_s* get_services_conf(char* buffer, size_t* num_services);
 
 static char* read_conf_file(void) {
   FILE* conf_file = fopen("conf/services.conf", "rb");
@@ -21,9 +20,9 @@ static char* read_conf_file(void) {
 
   size_t BUFFER_SIZE = 32;
   size_t index = 0;  
-  
+
   char c;
-  char* buffer = calloc(BUFFER_SIZE, sizeof(char*));
+  char* buffer = calloc(BUFFER_SIZE, sizeof(char));
   if (!buffer) {
     perror("SVC manager: calloc error\n");
     return NULL;
@@ -54,18 +53,18 @@ static char* read_conf_file(void) {
   return buffer;
 }
 
-static service_s* get_services_conf(char* buffer) {
-  size_t index = 0;
-  size_t BUFFER_SIZE = 8;
-  service_s* services = calloc(BUFFER_SIZE, sizeof(service_s*));
+static service_s* get_services_conf(char* buffer, size_t* num_services __attribute__((unused))) {
+  size_t count = 0;
+  size_t BUFFER_SIZE = 32;
+  service_s* services = calloc(BUFFER_SIZE, sizeof(service_s));
   
   char** services_token = parse_str(buffer, ",");
   char** service_token;
 
-  while (services_token[index]) {
-    if (index >= BUFFER_SIZE) {
+  while (services_token[count]) {
+    if (count >= BUFFER_SIZE) {
       BUFFER_SIZE *= 2;
-      service_s* tmp_buffer = realloc(services, BUFFER_SIZE);
+      service_s* tmp_buffer = realloc(services, BUFFER_SIZE * sizeof(service_s));
 
       if (!tmp_buffer) {
         perror("SVC manager: realloc error\n");
@@ -75,21 +74,53 @@ static service_s* get_services_conf(char* buffer) {
 
       services = tmp_buffer;
     }
-    
-    service_token = parse_str(services_token[index], "{};");
+    service_token = parse_str(services_token[count], "{};");
 
-    services[index].name = service_token[0];
+    services[count].name = strtok(service_token[0], " ");
     size_t i = 1;
     while (service_token[i]) {
       char** tmp_tok = parse_str(service_token[i], "=");
-      if (strcmp(tmp_tok[0], "cmd") == 0) services[index].cmd = tmp_tok[1];
+      if (strcmp(tmp_tok[0], "cmd") == 0) services[count].cmd = tmp_tok[1];
+      free(tmp_tok);
       i++;
     }
-   
-    index++;
+    
+    free(service_token);
+    count++;
+  }
+  *num_services = count;
+  
+  free(services_token);
+  return services;
+}
+
+service_s* get_service_by_name(char* name) {
+  char* conf_buffer = read_conf_file();
+  if (conf_buffer == NULL) {
+    free(conf_buffer);
+    return NULL;
+  }
+
+  size_t services_num;
+  service_s* services = get_services_conf(conf_buffer, &services_num);
+  if (services == NULL) {
+    free(services);
+    return NULL;
   }
   
-  return services;
+  for (size_t i = 0; i < services_num; i++) {
+    printf("Given name:%s\n", name);
+    printf("Found name:%s\n", services[i].name);
+
+    if (strcmp(services[i].name, name) == 0) {
+      return &services[i];
+    }
+  }
+
+  free(services);
+  free(conf_buffer);
+  printf("SVC info: service called %s not found\n", name);
+  return NULL;
 }
 
 void display_services(void) {
@@ -97,14 +128,14 @@ void display_services(void) {
   if (s) printf("Config file: \n%s\n", s);
   else printf("Something went wrong with config file?\n");
 
-  service_s* services = get_services_conf(s);
+  size_t services_num;
+  service_s* services = get_services_conf(s, &services_num);
 
-  size_t i = 0;
-  while (services[i].name != NULL) {
-    printf("\nname: %s\n", services[i].name);
+  for (size_t i = 0; i < services_num; i++) {
+    printf("\nNumber of services: %lu\n", services_num);
+    printf("name: %s\n", services[i].name);
     printf("cmd: %s\n", services[i].cmd);
     printf("pid: %d\n", services[i].pid);
-    i++;
   }
   
   free(s);

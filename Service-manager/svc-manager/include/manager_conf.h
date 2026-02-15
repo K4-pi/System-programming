@@ -3,12 +3,13 @@
 
 #include <sys/types.h>
 
-void display_services(void);
-
 typedef struct {
   char* name;
   char* cmd;
   pid_t pid;
 } service_s;
+
+void display_services(void);
+service_s* get_service_by_name(char* name);
 
 #endif
