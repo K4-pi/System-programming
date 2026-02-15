@@ -5,7 +5,7 @@
 
 void execute_cmd(char** commands);
 
-typedef void (*function)(void);
+typedef void (*function)(char*);
 
 typedef struct {
     char* name;
