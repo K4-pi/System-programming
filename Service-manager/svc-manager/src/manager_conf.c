@@ -8,10 +8,7 @@
 #include "manager_conf.h"
 #include "manager_string.h"
 
-static char* read_conf_file(void);
-static service_s* get_services_conf(char* buffer, size_t* num_services);
-
-static char* read_conf_file(void) {
+char* read_conf_file(void) {
   FILE* conf_file = fopen("conf/services.conf", "rb");
   if (conf_file == NULL) {
     perror("SVC manager: failed to open .conf file\n");
@@ -53,7 +50,7 @@ static char* read_conf_file(void) {
   return buffer;
 }
 
-static service_s* get_services_conf(char* buffer, size_t* num_services __attribute__((unused))) {
+service_s* get_services_conf(char* buffer, size_t* num_services __attribute__((unused))) {
   size_t count = 0;
   size_t BUFFER_SIZE = 32;
   service_s* services = calloc(BUFFER_SIZE, sizeof(service_s));
@@ -94,20 +91,7 @@ static service_s* get_services_conf(char* buffer, size_t* num_services __attribu
   return services;
 }
 
-service_s* get_service_by_name(char* name) {
-  char* conf_buffer = read_conf_file();
-  if (!conf_buffer) {
-    free(conf_buffer);
-    return NULL;
-  }
-
-  size_t services_num;
-  service_s* services = get_services_conf(conf_buffer, &services_num);
-  if (!services) {
-    free(services);
-    return NULL;
-  }
-  
+service_s* get_service_by_name(service_s* services, size_t services_num, char* name) {
   for (size_t i = 0; i < services_num; i++) {
     printf("Given name:%s\n", name);
     printf("Found name:%s\n", services[i].name);
@@ -117,20 +101,11 @@ service_s* get_service_by_name(char* name) {
     }
   }
 
-  free(services);
-  free(conf_buffer);
   printf("SVC info: service called %s not found\n", name);
   return NULL;
 }
 
-void display_services(void) {
-  char* s = read_conf_file();
-  if (s) printf("Config file: \n%s\n", s);
-  else printf("Something went wrong with config file?\n");
-
-  size_t services_num;
-  service_s* services = get_services_conf(s, &services_num);
-
+void display_services(service_s* services, size_t services_num) {
   for (size_t i = 0; i < services_num; i++) {
     printf("\nNumber of services: %lu\n", services_num);
     printf("name: %s\n", services[i].name);

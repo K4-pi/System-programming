@@ -12,6 +12,7 @@ typedef struct {
     function fn;
 } cmd;
 
-// extern cmd cmds[];
-// extern size_t cmds_len;
+void services_init(void);
+void services_clean(void); 
+
 #endif

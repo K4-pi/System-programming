@@ -9,7 +9,6 @@
 
 #include "manager_recv.h"
 #include "manager_commands.h"
-#include "manager_conf.h"
 #include "manager_string.h"
 
 #define SOCK_PATH "/tmp/svc.sock"
@@ -17,7 +16,7 @@
 #define MAX_EVENTS 64
 #define BUFFER_SIZE 64
 
-void manager_epoll() {
+void manager_loop(void) {
     int s = socket(AF_UNIX, SOCK_STREAM, 0);
     if (s == -1) {
         perror("SVC manager: socket error\n");
@@ -50,6 +49,8 @@ void manager_epoll() {
     if (epoll_ctl(epfd, EPOLL_CTL_ADD, s, &event) == -1) {
         perror("SVC manager: epoll add error\n");
     }
+
+    services_init(); //Read and store services
 
     while (1) {
         int n_ready = epoll_wait(epfd, events, MAX_EVENTS, -1);
@@ -92,7 +93,6 @@ void manager_epoll() {
                         if (errno == EAGAIN || errno == EWOULDBLOCK) {
                             break;
                         }
-                        // perror("recv error");
                         close(client_fd);
                         break;
                     }
@@ -100,5 +100,6 @@ void manager_epoll() {
             }
         }
     }
+    services_clean(); //Free services data
 }
 

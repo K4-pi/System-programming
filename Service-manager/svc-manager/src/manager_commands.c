@@ -19,11 +19,34 @@ cmd cmds[] = {
 };
 
 size_t cmds_len = sizeof(cmds)/sizeof(cmds[0]);
+size_t services_num;
+service_s* services;
+
+void services_init(void) {
+  char* conf_buffer = read_conf_file();
+  if (!conf_buffer) {
+    free(conf_buffer);
+    perror("Error reading config file\n");
+    return;
+  }
+
+  services = get_services_conf(conf_buffer, &services_num);
+  if (!services) {
+    free(services);
+    perror("Error getting services\n");
+    return;
+  }
+}
+
+void services_clean(void) {
+  free(services);
+}
 
 void execute_cmd(char** commands) {
   printf("\n=========================\n");
   printf("Command: %s\n", commands[0]);
   printf("Argument: %s\n", commands[1]);
+
 
   for (size_t i = 0; i < cmds_len; i++) {
     if (strcmp(commands[0], cmds[i].name) == 0) {
@@ -36,13 +59,18 @@ void execute_cmd(char** commands) {
 static void start_fn(char* name) {
   printf("START FUNCTION ON %s!\n", name);
 
-  service_s* s = get_service_by_name(name);
+  service_s* s = get_service_by_name(services, services_num, name);
   if (!s) {
     fprintf(stderr, "Error while launching serivce cmd, is NULL\n");
     return;
   }
 
   printf("CMD: %s\n", s->cmd);
+
+  if (s->pid != 0) {
+    printf("Service is already running at PID: %d\n", s->pid);
+    return;
+  }
 
   char* cmd_copy = strdup(s->cmd);
   char** cmd = parse_str(cmd_copy, " ");
@@ -65,7 +93,7 @@ static void start_fn(char* name) {
     printf("Created proces %s with PID: %d\n", s->name, pid);
   }
 
-  display_services(); // for debugging
+  display_services(services, services_num); // for debugging
 
   free(cmd);
   free(cmd_copy);
