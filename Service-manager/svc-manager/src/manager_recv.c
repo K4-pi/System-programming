@@ -85,8 +85,6 @@ void manager_epoll() {
 
                         execute_cmd(commands);
                         free(commands);
-
-                        display_services(); //For debugging
                     } else if (n == 0) {
                         close(client_fd);
                         break;
@@ -94,7 +92,7 @@ void manager_epoll() {
                         if (errno == EAGAIN || errno == EWOULDBLOCK) {
                             break;
                         }
-                        perror("recv error");
+                        // perror("recv error");
                         close(client_fd);
                         break;
                     }

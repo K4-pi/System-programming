@@ -96,14 +96,14 @@ static service_s* get_services_conf(char* buffer, size_t* num_services __attribu
 
 service_s* get_service_by_name(char* name) {
   char* conf_buffer = read_conf_file();
-  if (conf_buffer == NULL) {
+  if (!conf_buffer) {
     free(conf_buffer);
     return NULL;
   }
 
   size_t services_num;
   service_s* services = get_services_conf(conf_buffer, &services_num);
-  if (services == NULL) {
+  if (!services) {
     free(services);
     return NULL;
   }
