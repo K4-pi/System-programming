@@ -1,3 +1,4 @@
+#include <bits/types/idtype_t.h>
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -20,6 +21,7 @@ cmd cmds[] = {
 size_t cmds_len = sizeof(cmds)/sizeof(cmds[0]);
 
 void execute_cmd(char** commands) {
+  printf("\n=========================\n");
   printf("Command: %s\n", commands[0]);
   printf("Argument: %s\n", commands[1]);
 
@@ -51,15 +53,19 @@ static void start_fn(char* name) {
     return;
   }
 
-  // int status;
+  pid_t pid = fork();
+  if (pid == 0) {
+    execvp(cmd[0], cmd);
+    perror("Execvp error\n");
+    _exit(EXIT_FAILURE);
+  }
 
-  // s->pid = fork();
-  // if (s->pid == 0) {
-  //   execvp(cmd[0], cmd);
-  //   perror("Exec error\n");
-  //   _exit(EXIT_FAILURE);
-  // }
-  // waitpid(s->pid, &status, 0);
+  if (pid > 0) {
+    s->pid = pid;
+    printf("Created proces %s with PID: %d\n", s->name, pid);
+  }
+
+  display_services(); // for debugging
 
   free(cmd);
   free(cmd_copy);
