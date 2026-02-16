@@ -1,9 +1,11 @@
 web {
 	cmd=python -m http.server;
-	running=0;
 },
 
 web2 {
 	cmd=python -m http.server 8080;
-	running=0;
+},
+
+print {
+	cmd=echo "Hello world";
 }

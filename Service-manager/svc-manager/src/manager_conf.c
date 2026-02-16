@@ -9,7 +9,7 @@
 #include "manager_string.h"
 
 char* read_conf_file(void) {
-  FILE* conf_file = fopen("conf/services.conf", "rb");
+  FILE* conf_file = fopen("conf/services.svc", "rb");
   if (conf_file == NULL) {
     perror("SVC manager: failed to open .conf file\n");
     return NULL;
