@@ -1,4 +1,6 @@
+#include <assert.h>
 #include <bits/types/idtype_t.h>
+#include <signal.h>
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -102,5 +104,39 @@ static void start_fn(char* name) {
 
 static void stop_fn(char* name) {
   printf("STOP FUNCTION ON %s!\n", name);
+
+  service_s* s = get_service_by_name(services, services_num, name);
+  if (!s) {
+    fprintf(stderr, "Error while stopping serivce, is NULL\n");
+    return;
+  }
+
+  if (s->pid == 0) {
+    printf("Can't stop service, is already stopped\n");
+    return;
+  }
+
+  kill(s->pid, SIGTERM);
+  printf("Sending SIGTERM to process\n");
+
+  int status;
+  pid_t result = waitpid(s->pid, &status, 0);
+  printf("Exit status: %d\n", status);
+
+  if (result <= 0) {
+    printf("Sending SIGKILL to process\n");
+    kill(s->pid, SIGKILL);
+    waitpid(s->pid, &status, 0);
+  }
+  s->pid = 0;
+
+  if (WIFEXITED(status)) {
+    printf("Exited normally = %d\n", WEXITSTATUS(status));
+  }
+  else if (WIFSIGNALED(status)) {
+    printf("Killed by signal = %d\n", WTERMSIG(status));
+  }
+
+  printf("STOP FUNCTION ENDED\n");
 }
 
