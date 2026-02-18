@@ -8,4 +8,12 @@ web2 {
 
 print {
 	cmd=echo "Hello world";
-}
+},
+
+sleep_long {
+	cmd=sleep 300;
+},
+
+sleep_short {
+	cmd=sleep 5;
+},
