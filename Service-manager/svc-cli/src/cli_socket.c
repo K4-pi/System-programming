@@ -27,7 +27,21 @@ void send_to_manager(char** argv) {
 
     if (send(c, buffer, sizeof(buffer) - 1, 0) == -1) {
         perror("SVC cli: send error\n");
+        close(c);
         exit(EXIT_FAILURE);
     };
+
+    if (strcmp(argv[1], "status") == 0) {
+      memset(buffer, 0, BUFFER_SIZE);
+      if (recv(c, buffer, 128, 0) == -1) {
+        perror("SVC cli: recv error\n");
+        close(c);
+        exit(EXIT_FAILURE);
+      }
+
+      printf("<RECIVED>\n%s", buffer);
+        
+    }
+        
     close(c);
 }
