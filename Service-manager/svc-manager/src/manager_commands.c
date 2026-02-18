@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/socket.h>
 #include <unistd.h>
 #include <sys/wait.h>
 
@@ -14,13 +15,8 @@
 
 static void start_fn(char* name);
 static void stop_fn(char* name);
+static void status_fn(char* name, int client);
 
-cmd cmds[] = {
-  {"start", start_fn},
-  {"stop", stop_fn}
-};
-
-size_t cmds_len = sizeof(cmds)/sizeof(cmds[0]);
 size_t services_num;
 service_s* services;
 
@@ -44,18 +40,43 @@ void services_clean(void) {
   free(services);
 }
 
-void execute_cmd(char** commands) {
+void execute_cmd(char** commands, int client) {
   printf("\n=========================\n");
   printf("Command: %s\n", commands[0]);
   printf("Argument: %s\n", commands[1]);
-
-
-  for (size_t i = 0; i < cmds_len; i++) {
-    if (strcmp(commands[0], cmds[i].name) == 0) {
-      cmds[i].fn(commands[1]);
-      break;
-    }
+  
+  if (strcmp(commands[0], "start") == 0) {
+    start_fn(commands[1]);
   }
+  else if (strcmp(commands[0], "stop") == 0) {
+    stop_fn(commands[1]);
+  }
+  else if (strcmp(commands[0], "status") == 0) {
+    status_fn(commands[1], client);  
+  }
+}
+
+void status_fn(char* name, int client) {
+  printf("STATUS FUNCTION ON %s\n", name);
+  
+  service_s* s = get_service_by_name(services, services_num, name);
+  if (!s) {
+    fprintf(stderr, "Error while getting service\n");
+    return;
+  }
+
+  size_t BUFFER_SIZE = snprintf(NULL, 0, "Serivce: %s\nPID: %d\n", s->name, s->pid) + 1;
+
+  char* buffer = calloc(BUFFER_SIZE, sizeof(char));
+  snprintf(buffer, BUFFER_SIZE, "Serivce: %s\nPID: %d\n", s->name, s->pid);
+
+  if (send(client, buffer, BUFFER_SIZE, 0) == -1) {
+    fprintf(stderr, "error while sending info to client\n");
+    free(buffer);
+    return;
+  }
+
+  free(buffer);
 }
 
 static void start_fn(char* name) {
@@ -63,7 +84,7 @@ static void start_fn(char* name) {
 
   service_s* s = get_service_by_name(services, services_num, name);
   if (!s) {
-    fprintf(stderr, "Error while launching serivce cmd, is NULL\n");
+    fprintf(stderr, "Error while getting service\n");
     return;
   }
 
@@ -107,7 +128,7 @@ static void stop_fn(char* name) {
 
   service_s* s = get_service_by_name(services, services_num, name);
   if (!s) {
-    fprintf(stderr, "Error while stopping serivce, is NULL\n");
+    fprintf(stderr, "Error while getting serivce\n");
     return;
   }
 

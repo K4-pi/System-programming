@@ -84,7 +84,7 @@ void manager_loop(void) {
                             break;
                         }
 
-                        execute_cmd(commands);
+                        execute_cmd(commands, client_fd);
                         free(commands);
                     } else if (n == 0) {
                         close(client_fd);
