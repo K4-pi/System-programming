@@ -1,3 +1,4 @@
+#include <signal.h>
 #include <sys/socket.h>
 #include <sys/un.h>
 #include <sys/epoll.h>
@@ -51,9 +52,12 @@ void manager_loop(void) {
     }
 
     services_init(); //Read and store services
+    signal(SIGCHLD, sigchld_handler); //When child process changes state
 
     while (1) {
         int n_ready = epoll_wait(epfd, events, MAX_EVENTS, -1);
+
+        clean_unused_processes();
 
         for (int i = 0; i < n_ready; i++) {
             if (events[i].data.fd == s) { // NEW connection

@@ -20,6 +20,30 @@ static void status_fn(char* name, int client);
 size_t services_num;
 service_s* services;
 
+volatile sig_atomic_t child_exited = 0;
+
+void sigchld_handler(int sig __attribute__ ((unused))) {
+  child_exited = 1;
+}
+
+void clean_unused_processes() {
+  if (child_exited) {
+    child_exited = 0;
+
+    int status;
+    pid_t pid;
+
+    while ((pid = waitpid(-1, &status, WNOHANG)) > 0) {
+      printf("Service %d exited\n", pid);
+
+      service_s* s = get_service_by_pid(services, services_num, pid);
+      if (s) {
+        s->pid = 0;
+      }
+    }
+  }
+}
+
 void services_init(void) {
   char* conf_buffer = read_conf_file();
   if (!conf_buffer) {
