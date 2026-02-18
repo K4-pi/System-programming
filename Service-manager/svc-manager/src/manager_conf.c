@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/types.h>
+#include <unistd.h>
 
 #include "manager_conf.h"
 #include "manager_string.h"
@@ -102,6 +103,17 @@ service_s* get_service_by_name(service_s* services, size_t services_num, char* n
   }
 
   printf("SVC info: service called %s not found\n", name);
+  return NULL;
+}
+
+service_s* get_service_by_pid(service_s* services, size_t services_num, pid_t pid) {
+  for (size_t i = 0; i < services_num; i++) {
+    if (pid == services[i].pid) {
+      return &services[i];
+    }
+  }
+
+  printf("SVC info: service with PID %d not found\n", pid);
   return NULL;
 }
 

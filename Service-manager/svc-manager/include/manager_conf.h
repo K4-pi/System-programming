@@ -14,5 +14,6 @@ void display_services(service_s* services, size_t services_num);
 char* read_conf_file(void);
 service_s* get_service_by_name(service_s* services, size_t services_num, char* name);
 service_s* get_services_conf(char* buffer, size_t* num_services);
+service_s* get_service_by_pid(service_s* services, size_t services_num, pid_t pid); 
 
 #endif
