@@ -20,7 +20,7 @@ static void status_fn(char* name, int client);
 size_t services_num;
 service_s* services;
 
-volatile sig_atomic_t child_exited = 0;
+static sig_atomic_t child_exited = 0;
 
 void sigchld_handler(int sig __attribute__ ((unused))) {
   child_exited = 1;
