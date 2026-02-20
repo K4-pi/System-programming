@@ -26,7 +26,7 @@ void sigchld_handler(int sig __attribute__ ((unused))) {
   child_exited = 1;
 }
 
-void clean_unused_processes() {
+void clean_unused_processes(void) {
   if (child_exited) {
     child_exited = 0;
 
