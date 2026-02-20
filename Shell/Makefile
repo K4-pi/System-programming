@@ -1,11 +1,13 @@
+CC = gcc
+CFLAGS = -Wall -Wextra -g
+
+SRC_DIR := $(wildcard src/*.c)
+INCLUDE_DIR := -Iinclude
 
 all: compile
 
 compile:
-	gcc main.c -o run src/* -Iinclude -Wall -g
-
-bear:
-	bear -- gcc main.c -o run src/* -Iinclude -Wall -g
+	$(CC) $(CFLAGS) main.c -o csh $(SRC_DIR) $(INCLUDE_DIR)
 
 clean:
-	rm run
+	rm -f csh
