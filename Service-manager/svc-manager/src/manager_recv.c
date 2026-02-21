@@ -57,7 +57,7 @@ void manager_loop(void) {
     while (1) {
         int n_ready = epoll_wait(epfd, events, MAX_EVENTS, -1);
 
-        clean_unused_processes();
+        exit_process_handler(); //reap process or restart
 
         for (int i = 0; i < n_ready; i++) {
             if (events[i].data.fd == s) { // NEW connection

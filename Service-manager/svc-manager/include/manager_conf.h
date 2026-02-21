@@ -12,6 +12,7 @@ typedef struct {
   char* name;
   char* cmd;
   BOOL enabled;
+  BOOL restart;
   pid_t pid;
 } service_s;
 

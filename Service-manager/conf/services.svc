@@ -1,24 +1,29 @@
 web {
 	path=python -m http.server;
 	enabled=0;
+	restart=0;
 },
 
 web2 {
 	path=python -m http.server 8080;
-	enabled=1;
+	enabled=0;
+	restart=0;
 },
 
 print {
 	path=echo "Hello world";
 	enabled=1;
+	restart=0;
 },
 
 sleep_long {
 	path=sleep 300;
 	enabled=0;
+	restart=0;
 },
 
 sleep_short {
 	path=sleep 5;
-	enabled=0;
+	enabled=1;
+	restart=1;
 },

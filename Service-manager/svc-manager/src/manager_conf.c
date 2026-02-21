@@ -87,6 +87,14 @@ service_s* get_services_conf(char* buffer, size_t* num_services __attribute__((u
           services[count].enabled = FALSE;
         }
       } 
+      if (strcmp(tmp_tok[0], "restart") == 0) {
+        if (strcmp(tmp_tok[1], "1") == 0) {
+          services[count].restart = TRUE;
+        }
+        else {
+          services[count].restart = FALSE;
+        }
+      }
       free(tmp_tok);
       i++;
     }
@@ -129,8 +137,9 @@ void display_services(service_s* services, size_t services_num) {
   for (size_t i = 0; i < services_num; i++) {
     printf("\nNumber of services: %lu\n", services_num);
     printf("name: %s\n", services[i].name);
-    printf("cmd: %s\n", services[i].cmd);
-    printf("pid: %d\n", services[i].pid);
+    printf("path: %s\n", services[i].cmd);
     printf("enabled: %d\n", services[i].enabled);
+    printf("restart: %d\n", services[i].restart);
+    printf("pid: %d\n", services[i].pid);
   }
 }

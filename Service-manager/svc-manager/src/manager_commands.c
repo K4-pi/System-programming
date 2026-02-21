@@ -26,7 +26,7 @@ void sigchld_handler(int sig __attribute__((unused))) {
   child_exited = 1;
 }
 
-void clean_unused_processes(void) {
+void exit_process_handler(void) {
   if (child_exited) {
     child_exited = 0;
 
@@ -39,6 +39,11 @@ void clean_unused_processes(void) {
       service_s* s = get_service_by_pid(services, services_num, pid);
       if (s) {
         s->pid = 0;
+
+        if (s->restart) {
+          printf("Restarting process...\n");
+          start_fn(s->name);
+        }
       }
     }
   }
@@ -91,6 +96,7 @@ void execute_cmd(char** commands, int client) {
 
 void status_fn(char* name, int client) {
   printf("STATUS FUNCTION ON %s\n", name);
+  display_services(services, services_num); // for debugging
   
   service_s* s = get_service_by_name(services, services_num, name);
   if (!s) {
@@ -148,8 +154,6 @@ static void start_fn(char* name) {
     s->pid = pid;
     printf("Created proces %s with PID: %d\n", s->name, pid);
   }
-
-  display_services(services, services_num); // for debugging
 
   free(cmd);
   free(cmd_copy);
