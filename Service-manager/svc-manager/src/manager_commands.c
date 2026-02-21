@@ -22,7 +22,7 @@ service_s* services;
 
 static sig_atomic_t child_exited = 0;
 
-void sigchld_handler(int sig __attribute__ ((unused))) {
+void sigchld_handler(int sig __attribute__((unused))) {
   child_exited = 1;
 }
 
@@ -57,6 +57,15 @@ void services_init(void) {
     free(services);
     perror("Error getting services\n");
     return;
+  }
+
+  //start enabled services
+  size_t i = 0;
+  while (services[i].name) {
+    if (services[i].enabled) {
+      start_fn(services[i].name);
+    }
+    i++;   
   }
 }
 

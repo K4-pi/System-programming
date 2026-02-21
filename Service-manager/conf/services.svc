@@ -1,19 +1,24 @@
 web {
-	cmd=python -m http.server;
+	path=python -m http.server;
+	enabled=0;
 },
 
 web2 {
-	cmd=python -m http.server 8080;
+	path=python -m http.server 8080;
+	enabled=1;
 },
 
 print {
-	cmd=echo "Hello world";
+	path=echo "Hello world";
+	enabled=1;
 },
 
 sleep_long {
-	cmd=sleep 300;
+	path=sleep 300;
+	enabled=0;
 },
 
 sleep_short {
-	cmd=sleep 5;
+	path=sleep 5;
+	enabled=0;
 },

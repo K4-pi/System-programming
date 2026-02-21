@@ -3,9 +3,15 @@
 
 #include <sys/types.h>
 
+typedef enum {
+  FALSE,
+  TRUE
+} BOOL;
+
 typedef struct {
   char* name;
   char* cmd;
+  BOOL enabled;
   pid_t pid;
 } service_s;
 

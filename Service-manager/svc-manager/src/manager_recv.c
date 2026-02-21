@@ -51,7 +51,7 @@ void manager_loop(void) {
         perror("SVC manager: epoll add error\n");
     }
 
-    services_init(); //Read and store services
+    services_init(); //Reads, stores and starts enabled services
     signal(SIGCHLD, sigchld_handler); //When child process changes state
 
     while (1) {

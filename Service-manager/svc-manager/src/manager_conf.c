@@ -78,7 +78,15 @@ service_s* get_services_conf(char* buffer, size_t* num_services __attribute__((u
     size_t i = 1;
     while (service_token[i]) {
       char** tmp_tok = parse_str(service_token[i], "=");
-      if (strcmp(tmp_tok[0], "cmd") == 0) services[count].cmd = tmp_tok[1];
+      if (strcmp(tmp_tok[0], "path") == 0) services[count].cmd = tmp_tok[1];
+      if (strcmp(tmp_tok[0], "enabled") == 0) {
+        if (strcmp(tmp_tok[1], "1") == 0) {
+          services[count].enabled = TRUE;
+        }
+        else {
+          services[count].enabled = FALSE;
+        }
+      } 
       free(tmp_tok);
       i++;
     }
@@ -123,5 +131,6 @@ void display_services(service_s* services, size_t services_num) {
     printf("name: %s\n", services[i].name);
     printf("cmd: %s\n", services[i].cmd);
     printf("pid: %d\n", services[i].pid);
+    printf("enabled: %d\n", services[i].enabled);
   }
 }
