@@ -110,9 +110,6 @@ service_s* get_services_conf(char* buffer, size_t* num_services __attribute__((u
 
 service_s* get_service_by_name(service_s* services, size_t services_num, char* name) {
   for (size_t i = 0; i < services_num; i++) {
-    printf("Given name:%s\n", name);
-    printf("Found name:%s\n", services[i].name);
-
     if (strcmp(services[i].name, name) == 0) {
       return &services[i];
     }
